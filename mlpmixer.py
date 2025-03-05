@@ -16,7 +16,7 @@ class PatchEmbed(nn.Module):
         self.img_size = img_size
         self.patch_size = patch_size
         self.grid_size = img_size // patch_size
-        self.num_patches = self.grid_size * self.grid_size ""
+        self.num_patches = self.grid_size * self.grid_size 
 
         # Convolution 2D qui sert de projection linéaire des patches
         self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=patch_size) 
