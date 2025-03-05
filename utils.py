@@ -55,13 +55,33 @@ def to_device(tensors, device):
         raise NotImplementedError("Unknown type {0}".format(type(tensors)))
 
 
+# def cross_entropy_loss(logits: torch.Tensor, labels: torch.Tensor):
+#     """ Return the mean loss for this batch
+#     :param logits: [batch_size, num_class]
+#     :param labels: [batch_size]
+#     :return loss 
+#     """
+#     raise NotImplementedError
 def cross_entropy_loss(logits: torch.Tensor, labels: torch.Tensor):
-    """ Return the mean loss for this batch
-    :param logits: [batch_size, num_class]
-    :param labels: [batch_size]
-    :return loss 
+    """ Compute cross-entropy loss manually without torch.nn.CrossEntropyLoss
+    :param logits: [batch_size, num_classes] (non normalisés, output du modèle)
+    :param labels: [batch_size] (indices des classes correctes)
+    :return: Moyenne de la cross-entropy loss sur le batch
     """
-    raise NotImplementedError
+    # Étape 1: Appliquer softmax sur les logits pour obtenir des probabilités
+    probs = torch.nn.functional.softmax(logits, dim=1)  # [batch_size, num_classes]
+    
+    # Étape 2: Récupérer les probabilités associées aux labels réels
+    batch_size = logits.shape[0]
+    true_probs = probs[range(batch_size), labels]  # [batch_size]
+    
+    # Étape 3: Calcul de la log-likelihood
+    log_likelihood = torch.log(true_probs + 1e-9)  # Éviter log(0) avec un petit epsilon
+    
+    # Étape 4: Calcul de la cross-entropy loss (moyenne sur le batch)
+    loss = -log_likelihood.mean()
+    
+    return loss
 
 def compute_accuracy(logits: torch.Tensor, labels: torch.Tensor):
     """ Compute the accuracy of the batch """
