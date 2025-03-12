@@ -42,6 +42,7 @@ def train(epoch, model, dataloader, optimizer, args):
 
         if idx % args.print_every == 0:
             tqdm.write(f"[TRAIN] Epoch: {epoch}, Iter: {idx}, Loss: {loss.item():.5f}")
+    
     tqdm.write(f"== [TRAIN] Epoch: {epoch}, Accuracy: {epoch_accuracy:.3f} ==>")
     return epoch_loss, epoch_accuracy, time.time() - start_time
 
@@ -198,3 +199,7 @@ if __name__ == "__main__":
         # Visualize
         if args.visualize and args.model in ['resnet18', 'mlpmixer']:
             model.visualize(args.logdir)
+        #Sauvegarder le modèle
+        # model_save_path = os.path.join(args.logdir, 'model.pth')
+        # torch.save(model.state_dict(), model_save_path)
+        # print(f"Modèle sauvegardé à : {model_save_path}")
