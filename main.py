@@ -200,6 +200,6 @@ if __name__ == "__main__":
         if args.visualize and args.model in ['resnet18', 'mlpmixer']:
             model.visualize(args.logdir)
         #Sauvegarder le modèle
-        # model_save_path = os.path.join(args.logdir, 'model.pth')
-        # torch.save(model.state_dict(), model_save_path)
-        # print(f"Modèle sauvegardé à : {model_save_path}")
+        model_save_path = os.path.join(args.logdir, 'model.pth')
+        torch.save(model.state_dict(), model_save_path)
+        print(f"Modèle sauvegardé à : {model_save_path}")
