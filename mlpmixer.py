@@ -67,6 +67,7 @@ class Mlp(nn.Module):
         x = self.drop2(x)
         return x
 
+
 class MixerBlock(nn.Module):
     def __init__(
         self, dim, seq_len, token_mixing_mlp_width, channel_mixing_mlp_width,
@@ -154,6 +155,11 @@ class MLPMixer(nn.Module):
             )
             for _ in range(num_blocks)
         ])
+
+        self.norm = nn.LayerNorm(embed_dim)
+        self.head = nn.Linear(embed_dim, num_classes)
+
+        self.apply(self.init_weights)
 
     def init_weights(self, module):
         if isinstance(module, nn.Linear):
